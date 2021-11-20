@@ -5,7 +5,7 @@ import json
 
 # Create your views here.
 
-from Woof.models import Dog
+from Woof_app.models import Dog
 
 def index(request):
     response = json.dumps([{}])
