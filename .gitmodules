@@ -1,0 +1,3 @@
+[submodule "Woof_django/Woof_frontend"]
+	path = Woof_django/Woof_frontend
+	url = https://github.com/jwlhs104/Woof.git
