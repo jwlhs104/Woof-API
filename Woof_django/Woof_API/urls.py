@@ -22,6 +22,8 @@ from Woof_app import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html')),
-    path('dog', views.add_dog),
+    path('add_dog', views.add_dog),
+    path('get_dog', views.get_dog),
+    path('get_fomo_dog', views.get_fomo_dog),
     path('leaderboard', views.get_leaderboard),
 ]
