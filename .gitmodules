@@ -1,3 +1,3 @@
-[submodule "Woof"]
-	path = Woof
+[submodule "Woof_django/Woof"]
+  path = Woof_django/Woof
 	url = https://github.com/jwlhs104/Woof.git
