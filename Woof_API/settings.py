@@ -86,8 +86,11 @@ WSGI_APPLICATION = 'Woof_API.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
+        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
     }
 }
 

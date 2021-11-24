@@ -11,4 +11,3 @@ class Dog(models.Model):
             dogs.update(count = dogs[0].count+ self.count)
         else:
             return super(Dog,self).save()
-

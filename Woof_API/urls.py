@@ -20,7 +20,7 @@ from django.views.generic import TemplateView
 from Woof_app import views
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html')),
     path('add_dog', views.add_dog),
     path('get_dog', views.get_dog),
