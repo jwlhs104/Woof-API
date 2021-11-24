@@ -24,12 +24,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y7v7sne#v_#-67qnb&tr3co3k&8(%-j^!#u3)-fh-k@73-xk3r'
+# SECRET_KEY = 'y7v7sne#v_#-67qnb&tr3co3k&8(%-j^!#u3)-fh-k@73-xk3r'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fomo-dog.herokuapp.com']
 
 
 # Application definition
