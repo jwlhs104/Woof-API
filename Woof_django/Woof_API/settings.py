@@ -136,4 +136,4 @@ STATICFILES_DIRS = [
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-django_heroku.setting(locals())
+django_heroku.settings(locals())
