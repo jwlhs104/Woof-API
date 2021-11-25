@@ -7,7 +7,7 @@ class Dog(models.Model):
 
     def save(self,*args,**kwargs):
         dogs = Dog.objects.filter(name=self.name)
-        if dogs: # if some items are found in the database
+        try:
             dogs.update(count = dogs[0].count+ self.count)
-        else:
+        except:
             return super(Dog,self).save()
