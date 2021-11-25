@@ -7,6 +7,7 @@ class Dog(models.Model):
 
     def save(self,*args,**kwargs):
         dogs = Dog.objects.filter(name=self.name)
+        print(dogs)
         try:
             dogs.update(count = dogs[0].count+ self.count)
         except:

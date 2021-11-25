@@ -36,15 +36,16 @@ export default function Dog () {
           method: 'POST',
           headers: { "Content-Type": "text/json"},
           body: JSON.stringify(dog)
+        }).then(data=>{
+          // get count
+          fetch(`/get_dog?name=${id}`)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data['count'])
+            setCount(data['count'])
+          })
         })
 
-        // get count
-        fetch(`/get_dog?name=${id}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log(data['count'])
-          setCount(data['count'])
-        })
 
         // get image
         fetch(`https://api.opensea.io/api/v1/assets?token_ids=${id}&asset_contract_address=0x90cfCE78f5ED32f9490fd265D16c77a8b5320Bd4`)
