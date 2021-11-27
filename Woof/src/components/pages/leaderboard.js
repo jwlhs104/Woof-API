@@ -5,7 +5,11 @@ export default function LeaderBoard (props) {
   return(
     <div className="LeaderBoard">
       LeaderBoard
-      <table>
+      <table className="LeaderBoardTable">
+        <tr>
+          <th>Fomo Dog Id</th>
+          <th>Woof!</th>
+        </tr>
       {
         props.table.map(object =>{
           return(

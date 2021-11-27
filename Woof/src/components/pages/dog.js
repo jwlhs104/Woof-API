@@ -5,7 +5,7 @@ import LeaderBoard from "./leaderboard"
 import ChooseDog from "./chooseDog"
 
 export default function Dog () {
-  const { active, account, activate} = useWeb3React()
+  const { active, account, activate, deactivate} = useWeb3React()
   const [count, setCount] = useState(0);
   const [show, setShow] = useState(false);
   const [image, setImage] = useState('');
@@ -15,6 +15,8 @@ export default function Dog () {
   const [showChooseDog, setShowChooseDog] = useState(false);
   const [chosen, setChosen] = useState(false);
   const [leaderboard, setLeaderboard] = useState([]);
+  const [noDog, setNoDog] = useState(false);
+  let audio = new Audio("https://notification-sounds.com/soundsfiles/Dog-woof-single-sound.mp3")
 
   useEffect(connect_callback, [account])
   useEffect(chooseDog_callback, [dogUrls])
@@ -65,6 +67,15 @@ export default function Dog () {
     }
   }
 
+  async function disconnect() {
+    setChosen(false)
+    try {
+      deactivate()
+    } catch (ex) {
+      console.log(ex)
+    }
+  }
+
   function connect_callback(){
     if (typeof account !== 'undefined'){
       // get account fomo dog
@@ -75,28 +86,33 @@ export default function Dog () {
         // select dog
         var ids = []
         data.forEach(obj=>ids.push(obj['token_id']))
-        var opensea_url = new URL('https://api.opensea.io/api/v1/assets')
-        var params = {token_ids: ids, asset_contract_address: "0x90cfCE78f5ED32f9490fd265D16c77a8b5320Bd4"}
-        Object.keys(params).forEach(key => {
-          if (Array.isArray(params[key])) {
-            params[key].forEach(p => opensea_url.searchParams.append(key, p)) 
-          }
-          else {
-            opensea_url.searchParams.append(key, params[key])
-          }
-        })
-        fetch(opensea_url)
-        .then(response => response.json())
-        .then(data => {
-          var urls = []
-          var ids = []
-          data['assets'].forEach(obj=>{
-            urls.push(obj['image_url'])
-            ids.push(obj['token_id'])
+        if (ids.length > 0) {
+          var opensea_url = new URL('https://api.opensea.io/api/v1/assets')
+          var params = {token_ids: ids, asset_contract_address: "0x90cfCE78f5ED32f9490fd265D16c77a8b5320Bd4"}
+          Object.keys(params).forEach(key => {
+            if (Array.isArray(params[key])) {
+              params[key].forEach(p => opensea_url.searchParams.append(key, p)) 
+            }
+            else {
+              opensea_url.searchParams.append(key, params[key])
+            }
           })
-          setDogUrls(urls)
-          setOpenseaIds(ids)
-        })
+          fetch(opensea_url)
+          .then(response => response.json())
+          .then(data => {
+            var urls = []
+            var ids = []
+            data['assets'].forEach(obj=>{
+              urls.push(obj['image_url'])
+              ids.push(obj['token_id'])
+            })
+            setDogUrls(urls)
+            setOpenseaIds(ids)
+          })
+        }
+        else {
+          setNoDog(true)
+        }
       })
     }
   }
@@ -104,13 +120,22 @@ export default function Dog () {
   return(
     <div className="Dog">
       {chosen && <div id="WoofCount">{count}</div>}
-      {chosen && <div id="WoofClick" 
+      <div 
+        className={show ? 'Woof' : 'Woof hide'}
+        onTransitionEnd={() => {
+          setShow(false)
+        }}
+      >
+        Woof!
+      </div>
+      {chosen && <div className={show ? "WoofClick shake" : "WoofClick"} 
         style={{
             backgroundImage: image!==''? `url(${image})` : 'url(https://fomodog.club/static/media/fomo.c3a49b0a.png)',
         }}
         onClick={
         () => 
         {
+          audio.play()
           setCount(count+1)
           setShow(true)
 
@@ -129,21 +154,15 @@ export default function Dog () {
           })
         }
       }>
-        <div 
-          className={show ? 'Woof' : 'Woof hide'}
-          onTransitionEnd={() => {
-            setShow(false)
-          }
-          }
-        >
-          Woof!
-        </div>
       </div>
       }
-      {!chosen && <button onClick={connect}>Connect to MetaMask</button>}
-      {chosen && <div id="Connect">Connected with <b>{account}</b></div>}
-      <LeaderBoard table={leaderboard}/>
+      {!chosen && <button className="connectButton" onClick={connect}>Connect to MetaMask</button>}
+      {chosen && <LeaderBoard table={leaderboard}/>}
       {showChooseDog && <ChooseDog dogList={dogUrls} onChosen={chosen_callback}/>}
+      {(noDog && !chosen) && <div className="noDog">Sorry, You have no Fomo Dog in your wallet</div>}
+      <div className="topRight">
+        {chosen && <div className="connectButton" onClick={disconnect}>Disconnect</div>}
+      </div>
     </div>
   )
 }
