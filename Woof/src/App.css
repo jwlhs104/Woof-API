@@ -33,7 +33,6 @@
 .WoofClick{
   height: 40vmin;
   width: 40vmin;
-  background-image: url('https://fomodog.club/static/media/fomo.c3a49b0a.png');
   background-size: contain;
   cursor: pointer;
   position:relative;

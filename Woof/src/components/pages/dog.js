@@ -128,9 +128,9 @@ export default function Dog () {
       >
         Woof!
       </div>
-      {chosen && <div className={show ? "WoofClick shake" : "WoofClick"} 
+      {(chosen && image!=='') && <div className={show ? "WoofClick shake" : "WoofClick"} 
         style={{
-            backgroundImage: image!==''? `url(${image})` : 'url(https://fomodog.club/static/media/fomo.c3a49b0a.png)',
+            backgroundImage: `url(${image})`,
         }}
         onClick={
         () => 
